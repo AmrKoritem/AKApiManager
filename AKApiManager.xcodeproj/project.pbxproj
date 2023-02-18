@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05F52A57571AA361E5ACAD58 /* Pods_AKApiManager_AKApiManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC16D790AF4F4F7DA776A672 /* Pods_AKApiManager_AKApiManagerTests.framework */; };
 		1D4C26EA29A0609D00007DFE /* AKApiManager.docc in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C26E929A0609D00007DFE /* AKApiManager.docc */; };
 		1D4C26F029A0609E00007DFE /* AKApiManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D4C26E529A0609D00007DFE /* AKApiManager.framework */; };
 		1D4C26F529A0609E00007DFE /* AKApiManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C26F429A0609E00007DFE /* AKApiManagerTests.swift */; };
 		1D4C26F629A0609E00007DFE /* AKApiManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C26E829A0609D00007DFE /* AKApiManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9E4BBE5CAC1BD0FE3C04588D /* Pods_AKApiManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B26E0E7C4AA48A1649B21B6 /* Pods_AKApiManager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,12 @@
 		1D4C26E929A0609D00007DFE /* AKApiManager.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = AKApiManager.docc; sourceTree = "<group>"; };
 		1D4C26EF29A0609E00007DFE /* AKApiManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AKApiManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D4C26F429A0609E00007DFE /* AKApiManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKApiManagerTests.swift; sourceTree = "<group>"; };
+		4B26E0E7C4AA48A1649B21B6 /* Pods_AKApiManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AKApiManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68F19F846D00A25E935853E4 /* Pods-AKApiManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager.debug.xcconfig"; path = "Target Support Files/Pods-AKApiManager/Pods-AKApiManager.debug.xcconfig"; sourceTree = "<group>"; };
+		6C9BA6B38F9CC5BBDBE28FB1 /* Pods-AKApiManager-AKApiManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager-AKApiManagerTests.release.xcconfig"; path = "Target Support Files/Pods-AKApiManager-AKApiManagerTests/Pods-AKApiManager-AKApiManagerTests.release.xcconfig"; sourceTree = "<group>"; };
+		B215E08A1ECB460BB624715E /* Pods-AKApiManager-AKApiManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager-AKApiManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-AKApiManager-AKApiManagerTests/Pods-AKApiManager-AKApiManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CDA4A22BEC46202FBA76E350 /* Pods-AKApiManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager.release.xcconfig"; path = "Target Support Files/Pods-AKApiManager/Pods-AKApiManager.release.xcconfig"; sourceTree = "<group>"; };
+		EC16D790AF4F4F7DA776A672 /* Pods_AKApiManager_AKApiManagerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AKApiManager_AKApiManagerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E4BBE5CAC1BD0FE3C04588D /* Pods_AKApiManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +53,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D4C26F029A0609E00007DFE /* AKApiManager.framework in Frameworks */,
+				05F52A57571AA361E5ACAD58 /* Pods_AKApiManager_AKApiManagerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,9 +63,11 @@
 		1D4C26DB29A0609D00007DFE = {
 			isa = PBXGroup;
 			children = (
-				1D4C26E729A0609D00007DFE /* AKApiManager */,
-				1D4C26F329A0609E00007DFE /* AKApiManagerTests */,
+				1D4C270029A060B000007DFE /* Sources */,
+				1D4C26FF29A060A700007DFE /* Tests */,
 				1D4C26E629A0609D00007DFE /* Products */,
+				940EE60D0E48DDFA35BD440A /* Pods */,
+				5E9C9FD46A71F44153C8E586 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,8 +83,6 @@
 		1D4C26E729A0609D00007DFE /* AKApiManager */ = {
 			isa = PBXGroup;
 			children = (
-				1D4C26E829A0609D00007DFE /* AKApiManager.h */,
-				1D4C26E929A0609D00007DFE /* AKApiManager.docc */,
 			);
 			path = AKApiManager;
 			sourceTree = "<group>";
@@ -83,6 +93,45 @@
 				1D4C26F429A0609E00007DFE /* AKApiManagerTests.swift */,
 			);
 			path = AKApiManagerTests;
+			sourceTree = "<group>";
+		};
+		1D4C26FF29A060A700007DFE /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1D4C26F329A0609E00007DFE /* AKApiManagerTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		1D4C270029A060B000007DFE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				1D4C26E729A0609D00007DFE /* AKApiManager */,
+				1D4C26E829A0609D00007DFE /* AKApiManager.h */,
+				1D4C26E929A0609D00007DFE /* AKApiManager.docc */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		5E9C9FD46A71F44153C8E586 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4B26E0E7C4AA48A1649B21B6 /* Pods_AKApiManager.framework */,
+				EC16D790AF4F4F7DA776A672 /* Pods_AKApiManager_AKApiManagerTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		940EE60D0E48DDFA35BD440A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				68F19F846D00A25E935853E4 /* Pods-AKApiManager.debug.xcconfig */,
+				CDA4A22BEC46202FBA76E350 /* Pods-AKApiManager.release.xcconfig */,
+				B215E08A1ECB460BB624715E /* Pods-AKApiManager-AKApiManagerTests.debug.xcconfig */,
+				6C9BA6B38F9CC5BBDBE28FB1 /* Pods-AKApiManager-AKApiManagerTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,6 +152,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D4C26F929A0609E00007DFE /* Build configuration list for PBXNativeTarget "AKApiManager" */;
 			buildPhases = (
+				7908CDFB225A040980531A5B /* [CP] Check Pods Manifest.lock */,
 				1D4C26E029A0609D00007DFE /* Headers */,
 				1D4C26E129A0609D00007DFE /* Sources */,
 				1D4C26E229A0609D00007DFE /* Frameworks */,
@@ -121,9 +171,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D4C26FC29A0609E00007DFE /* Build configuration list for PBXNativeTarget "AKApiManagerTests" */;
 			buildPhases = (
+				895A80A025B1519AD976CC7B /* [CP] Check Pods Manifest.lock */,
 				1D4C26EB29A0609E00007DFE /* Sources */,
 				1D4C26EC29A0609E00007DFE /* Frameworks */,
 				1D4C26ED29A0609E00007DFE /* Resources */,
+				420BFBFC8F8829214F9600AD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,6 +240,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		420BFBFC8F8829214F9600AD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AKApiManager-AKApiManagerTests/Pods-AKApiManager-AKApiManagerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AKApiManager-AKApiManagerTests/Pods-AKApiManager-AKApiManagerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AKApiManager-AKApiManagerTests/Pods-AKApiManager-AKApiManagerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7908CDFB225A040980531A5B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AKApiManager-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		895A80A025B1519AD976CC7B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AKApiManager-AKApiManagerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D4C26E129A0609D00007DFE /* Sources */ = {
@@ -339,6 +455,7 @@
 		};
 		1D4C26FA29A0609E00007DFE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 68F19F846D00A25E935853E4 /* Pods-AKApiManager.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -367,6 +484,7 @@
 		};
 		1D4C26FB29A0609E00007DFE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDA4A22BEC46202FBA76E350 /* Pods-AKApiManager.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -395,6 +513,7 @@
 		};
 		1D4C26FD29A0609E00007DFE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B215E08A1ECB460BB624715E /* Pods-AKApiManager-AKApiManagerTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -411,6 +530,7 @@
 		};
 		1D4C26FE29A0609E00007DFE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C9BA6B38F9CC5BBDBE28FB1 /* Pods-AKApiManager-AKApiManagerTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

@@ -1,0 +1,62 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+
+## OS X
+.DS_Store
+
+## Build Generated
+DerivedData/*
+build/
+
+## Profile
+profile
+
+## Xcode user’s preferences
+*.pbxuser
+
+## Xcode user’s prespective
+*.perspectivev3
+
+## Layout information and breakpoints
+*.mode1v3
+*.mode2v3
+
+## Binary file to store an app
+*.ipa
+*.hmap
+
+## Debug Symbols File
+*.dSYM
+*.dSYM.zip
+
+## User Data
+xcuserdata/
+
+## User State
+*.xcuserstate
+
+## user checkouts
+*.xccheckout
+
+## Xcode Deprecated Files
+*.moved-aside
+
+## CocoaPods
+Pods/*
+Podfile.lock
+
+## Bundler
+.bundle
+
+## Carthage/Checkouts
+Carthage/Build
+
+## Swift Package Manager
+/.build
+/Packages
+/*.xcodeproj
+.swiftpm/config/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+
+## ExampleApps
+Example/Pods/*
