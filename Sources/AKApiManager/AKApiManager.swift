@@ -16,7 +16,7 @@ public protocol AKApiManagerProtocol {
 }
 
 public extension AKApiManagerProtocol {
-    func request(_ request: DataRequest) async -> (status: Int?, data: Any?)  {
+    func request(_ request: DataRequest) async -> (status: Int?, data: Data?)  {
         await withCheckedContinuation { continuation in
             self.request(request) { status, data in
                 continuation.resume(returning: (status: status, data: data))
@@ -24,7 +24,7 @@ public extension AKApiManagerProtocol {
         }
     }
 
-    func upload(_ request: UploadRequest) async -> (status: Int?, data: Any?) {
+    func upload(_ request: UploadRequest) async -> (status: Int?, data: Data?) {
         await withCheckedContinuation { continuation in
             upload(request) { status, data in
                 continuation.resume(returning: (status: status, data: data))
