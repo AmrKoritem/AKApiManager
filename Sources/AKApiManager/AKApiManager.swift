@@ -37,11 +37,17 @@ public class AKApiManager: AKApiManagerProtocol {
     public static let notConnectedStatus = -1010
     public static let shared = AKApiManager()
 
+    /// Returns true if internet is reachable
     public var isConnected: Bool { NetworkReachabilityManager()?.isReachable ?? false }
+    /// Base url of your APIs. The url path you provide in the `request(_:completionHandler:)` method will be concatenated to it before being used as the request url.
     public var baseUrl = ""
 
     private init() {}
 
+    /// Used to upload any data.
+    /// - Parameters:
+    ///   - request: Upload request data to be used.
+    ///   - completionHandler: Callback to be triggered upon response.
     public func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
         AF.upload(
@@ -61,7 +67,11 @@ public class AKApiManager: AKApiManagerProtocol {
             self?.handleResponse(response: response, completion: completionHandler)
         }
     }
-
+    
+    /// Used for any restful api.
+    /// - Parameters:
+    ///   - request: Data request to be used.
+    ///   - completionHandler: Callback to be triggered upon response.
     public func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
         let reqUrl = baseUrl.appending(request.url)
@@ -102,7 +112,8 @@ public class AKApiManager: AKApiManagerProtocol {
             printInDebug("json: \(String(describing: response.data))")
         }
     }
-
+    
+    /// This method is marked as _open_ so that you can override it with empty implementation if you don't want to see the printed logs.
     open func printInDebug(_ string: String) {
         #if DEBUG
         print(string)
