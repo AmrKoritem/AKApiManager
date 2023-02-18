@@ -12,6 +12,10 @@
 		1D4C26F029A0609E00007DFE /* AKApiManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D4C26E529A0609D00007DFE /* AKApiManager.framework */; };
 		1D4C26F529A0609E00007DFE /* AKApiManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C26F429A0609E00007DFE /* AKApiManagerTests.swift */; };
 		1D4C26F629A0609E00007DFE /* AKApiManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C26E829A0609D00007DFE /* AKApiManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1D4C270229A0624200007DFE /* AKApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C270129A0624200007DFE /* AKApiManager.swift */; };
+		1D4C270529A0629F00007DFE /* ResponseHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C270429A0629F00007DFE /* ResponseHandlers.swift */; };
+		1D4C270729A062B800007DFE /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C270629A062B700007DFE /* DataRequest.swift */; };
+		1D4C270929A062CD00007DFE /* UploadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C270829A062CD00007DFE /* UploadRequest.swift */; };
 		9E4BBE5CAC1BD0FE3C04588D /* Pods_AKApiManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B26E0E7C4AA48A1649B21B6 /* Pods_AKApiManager.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +35,10 @@
 		1D4C26E929A0609D00007DFE /* AKApiManager.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = AKApiManager.docc; sourceTree = "<group>"; };
 		1D4C26EF29A0609E00007DFE /* AKApiManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AKApiManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D4C26F429A0609E00007DFE /* AKApiManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKApiManagerTests.swift; sourceTree = "<group>"; };
+		1D4C270129A0624200007DFE /* AKApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKApiManager.swift; sourceTree = "<group>"; };
+		1D4C270429A0629F00007DFE /* ResponseHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseHandlers.swift; sourceTree = "<group>"; };
+		1D4C270629A062B700007DFE /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
+		1D4C270829A062CD00007DFE /* UploadRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadRequest.swift; sourceTree = "<group>"; };
 		4B26E0E7C4AA48A1649B21B6 /* Pods_AKApiManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AKApiManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68F19F846D00A25E935853E4 /* Pods-AKApiManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager.debug.xcconfig"; path = "Target Support Files/Pods-AKApiManager/Pods-AKApiManager.debug.xcconfig"; sourceTree = "<group>"; };
 		6C9BA6B38F9CC5BBDBE28FB1 /* Pods-AKApiManager-AKApiManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager-AKApiManagerTests.release.xcconfig"; path = "Target Support Files/Pods-AKApiManager-AKApiManagerTests/Pods-AKApiManager-AKApiManagerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -83,6 +91,8 @@
 		1D4C26E729A0609D00007DFE /* AKApiManager */ = {
 			isa = PBXGroup;
 			children = (
+				1D4C270129A0624200007DFE /* AKApiManager.swift */,
+				1D4C270329A0628A00007DFE /* Helpers */,
 			);
 			path = AKApiManager;
 			sourceTree = "<group>";
@@ -113,6 +123,16 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		1D4C270329A0628A00007DFE /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1D4C270429A0629F00007DFE /* ResponseHandlers.swift */,
+				1D4C270629A062B700007DFE /* DataRequest.swift */,
+				1D4C270829A062CD00007DFE /* UploadRequest.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		5E9C9FD46A71F44153C8E586 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,7 +150,6 @@
 				B215E08A1ECB460BB624715E /* Pods-AKApiManager-AKApiManagerTests.debug.xcconfig */,
 				6C9BA6B38F9CC5BBDBE28FB1 /* Pods-AKApiManager-AKApiManagerTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -310,7 +329,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D4C270229A0624200007DFE /* AKApiManager.swift in Sources */,
 				1D4C26EA29A0609D00007DFE /* AKApiManager.docc in Sources */,
+				1D4C270529A0629F00007DFE /* ResponseHandlers.swift in Sources */,
+				1D4C270729A062B800007DFE /* DataRequest.swift in Sources */,
+				1D4C270929A062CD00007DFE /* UploadRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +490,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -496,6 +520,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -515,6 +540,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B215E08A1ECB460BB624715E /* Pods-AKApiManager-AKApiManagerTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S84559HK9V;
@@ -532,6 +558,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C9BA6B38F9CC5BBDBE28FB1 /* Pods-AKApiManager-AKApiManagerTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S84559HK9V;
