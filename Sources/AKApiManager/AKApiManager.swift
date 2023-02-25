@@ -16,19 +16,15 @@ public protocol AKApiManagerProtocol {
 }
 
 public extension AKApiManagerProtocol {
-    func request(_ request: DataRequest) async -> (status: Int?, data: Any?)  {
-        await withCheckedContinuation { continuation in
-            self.request(request) { status, data in
-                continuation.resume(returning: (status: status, data: data))
-            }
+    func request(_ request: DataRequest) async -> (status: Int?, data: Data?)  {
+        await withCheckedContinuation { cont in
+            self.request(request) { cont.resume(returning: ($0, $1)) }
         }
     }
 
-    func upload(_ request: UploadRequest) async -> (status: Int?, data: Any?) {
-        await withCheckedContinuation { continuation in
-            upload(request) { status, data in
-                continuation.resume(returning: (status: status, data: data))
-            }
+    func upload(_ request: UploadRequest) async -> (status: Int?, data: Data?) {
+        await withCheckedContinuation { cont in
+            upload(request) { cont.resume(returning: ($0, $1)) }
         }
     }
 }
@@ -38,7 +34,9 @@ public class AKApiManager: AKApiManagerProtocol {
     public static let shared = AKApiManager()
 
     /// Returns true if internet is reachable
-    public var isConnected: Bool { NetworkReachabilityManager()?.isReachable ?? false }
+    open var isConnected: Bool {
+        NetworkReachabilityManager()?.isReachable ?? false
+    }
     /// Base url of your APIs. The url path you provide in the `request(_:completionHandler:)` method will be concatenated to it before being used as the request url.
     public var baseUrl = ""
 
@@ -63,8 +61,9 @@ public class AKApiManager: AKApiManagerProtocol {
             self?.printInDebug("upload progress: \(progress)")
         })
         .responseData { [weak self] response in
-            self?.printInDebug("upload url: \(request.url)")
-            self?.handleResponse(response: response, completion: completionHandler)
+            guard let self = self else { return }
+            self.printInDebug("upload url: \(request.url)")
+            self.handleResponse(response: response, completion: completionHandler)
         }
     }
     
@@ -83,14 +82,15 @@ public class AKApiManager: AKApiManagerProtocol {
             encoding: request.encoding,
             headers: request.headers)
         .responseData { [weak self] response in
+            guard let self = self else { return }
             let time2 = Date()
-            self?.printInDebug("headers: \(String(describing: request.headers))")
-            self?.printInDebug("url: \(reqUrl)")
-            self?.printInDebug("type: \(request.method.rawValue)")
-            self?.printInDebug("parameters: \(request.parameters ?? [:])")
-            self?.printInDebug("encoding: \(request.encoding)")
-            self?.printInDebug("requestTime: \(time2.timeIntervalSince1970 - time1.timeIntervalSince1970)")
-            self?.handleResponse(response: response, completion: completionHandler)
+            self.printInDebug("headers: \(String(describing: request.headers))")
+            self.printInDebug("url: \(reqUrl)")
+            self.printInDebug("type: \(request.method.rawValue)")
+            self.printInDebug("parameters: \(request.parameters ?? [:])")
+            self.printInDebug("encoding: \(request.encoding)")
+            self.printInDebug("requestTime: \(time2.timeIntervalSince1970 - time1.timeIntervalSince1970)")
+            self.handleResponse(response: response, completion: completionHandler)
         }
     }
 
