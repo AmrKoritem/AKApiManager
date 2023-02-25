@@ -4,7 +4,7 @@ s.name = "AKApiManager"
 s.summary = "AKApiManager is a layer built on top of Alamofire to facilitate restful api requests."
 s.requires_arc = true
 
-s.version = "1.0.0"
+s.version = "1.0.1"
 s.license = { :type => "MIT", :file => "LICENSE" }
 s.author = { "Amr Koritem" => "amr.koritem92@gmail.com" }
 s.homepage = "https://github.com/AmrKoritem/AKApiManager"
