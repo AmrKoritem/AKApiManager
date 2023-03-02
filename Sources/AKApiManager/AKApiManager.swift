@@ -8,27 +8,31 @@
 import Foundation
 import Alamofire
 
+/// Protocol used for unit testing purposes.
 public protocol AKApiManagerProtocol {
     var isConnected: Bool { get }
     var baseUrl: String { get set }
+    var addedHeadersHandler: HeadersHandler.Added { get set }
+    var defaultUploadHeadersHandler: HeadersHandler.Upload { get set }
     func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data)
     func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data)
 }
 
 public extension AKApiManagerProtocol {
-    func request(_ request: DataRequest) async -> (status: Int?, data: Data?)  {
+    @discardableResult func request(_ request: DataRequest) async -> (status: Int?, data: Data?)  {
         await withCheckedContinuation { cont in
             self.request(request) { cont.resume(returning: ($0, $1)) }
         }
     }
 
-    func upload(_ request: UploadRequest) async -> (status: Int?, data: Data?) {
+    @discardableResult func upload(_ request: UploadRequest) async -> (status: Int?, data: Data?) {
         await withCheckedContinuation { cont in
             upload(request) { cont.resume(returning: ($0, $1)) }
         }
     }
 }
 
+/// Api manager is built on top of `Alamofire` to facilitate usage of restful api requests.
 public class AKApiManager: AKApiManagerProtocol {
     public static let notConnectedStatus = -1010
     public static let shared = AKApiManager()
@@ -39,6 +43,15 @@ public class AKApiManager: AKApiManagerProtocol {
     }
     /// Base url of your APIs. The url path you provide in the `request(_:completionHandler:)` method will be concatenated to it before being used as the request url.
     public var baseUrl = ""
+    /// Optionally, set this handler to add a default set of headers to your APIs headers. For example: `"Authorization": "bearer token"`.
+    public var addedHeadersHandler: HeadersHandler.Added = { nil }
+    /// This handler returns the default headers for upload requests. Change its value according to your business needs.
+    public var defaultUploadHeadersHandler: HeadersHandler.Upload = {
+        HTTPHeaders([
+            "Content-Type": $0,
+            "x-amz-acl": "public-read"
+        ])
+    }
 
     private init() {}
 
@@ -48,14 +61,13 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
+        let uploadHeaders = defaultUploadHeadersHandler(request.mimeType)
+        let headers = addedHeadersHandler()?.added(uploadHeaders)
         AF.upload(
             request.data,
             to: request.url,
             method: .put,
-            headers: [
-                "Content-Type": request.mimeType,
-                "x-amz-acl": "public-read"
-            ])
+            headers: headers)
         .uploadProgress(closure: { [weak self] progress in
             request.progressHandler?(progress)
             self?.printInDebug("upload progress: \(progress)")
@@ -73,6 +85,7 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
+        let headers = addedHeadersHandler()?.added(request.headers ?? HTTPHeaders())
         let reqUrl = baseUrl.appending(request.url)
         let time1 = Date()
         AF.request(
@@ -80,7 +93,7 @@ public class AKApiManager: AKApiManagerProtocol {
             method: request.method,
             parameters: request.parameters,
             encoding: request.encoding,
-            headers: request.headers)
+            headers: headers)
         .responseData { [weak self] response in
             guard let self = self else { return }
             let time2 = Date()
