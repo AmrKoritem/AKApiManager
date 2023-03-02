@@ -52,6 +52,8 @@ public class AKApiManager: AKApiManagerProtocol {
             "x-amz-acl": "public-read"
         ])
     }
+    /// Optionally, change its value to `true` to see all logs of your API requests.
+    public var allowLogs = false
 
     private init() {}
 
@@ -126,8 +128,9 @@ public class AKApiManager: AKApiManagerProtocol {
         }
     }
     
-    /// This method is marked as _open_ so that you can override it with empty implementation if you don't want to see the printed logs.
-    open func printInDebug(_ string: String) {
+    /// This method prints logs when running in debug mode.
+    func printInDebug(_ string: String) {
+        guard allowLogs else { return }
         #if DEBUG
         print(string)
         #endif
