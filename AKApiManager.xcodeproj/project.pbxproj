@@ -16,6 +16,8 @@
 		1D4C270529A0629F00007DFE /* ResponseHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C270429A0629F00007DFE /* ResponseHandlers.swift */; };
 		1D4C270729A062B800007DFE /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C270629A062B700007DFE /* DataRequest.swift */; };
 		1D4C270929A062CD00007DFE /* UploadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C270829A062CD00007DFE /* UploadRequest.swift */; };
+		1D8A5B5F29B123700056A8A9 /* HTTPHeaders+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8A5B5E29B123700056A8A9 /* HTTPHeaders+Extension.swift */; };
+		1D8A5B6129B1669B0056A8A9 /* HeadersHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8A5B6029B1669B0056A8A9 /* HeadersHandler.swift */; };
 		9E4BBE5CAC1BD0FE3C04588D /* Pods_AKApiManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B26E0E7C4AA48A1649B21B6 /* Pods_AKApiManager.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +41,8 @@
 		1D4C270429A0629F00007DFE /* ResponseHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseHandlers.swift; sourceTree = "<group>"; };
 		1D4C270629A062B700007DFE /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
 		1D4C270829A062CD00007DFE /* UploadRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadRequest.swift; sourceTree = "<group>"; };
+		1D8A5B5E29B123700056A8A9 /* HTTPHeaders+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPHeaders+Extension.swift"; sourceTree = "<group>"; };
+		1D8A5B6029B1669B0056A8A9 /* HeadersHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersHandler.swift; sourceTree = "<group>"; };
 		4B26E0E7C4AA48A1649B21B6 /* Pods_AKApiManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AKApiManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68F19F846D00A25E935853E4 /* Pods-AKApiManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager.debug.xcconfig"; path = "Target Support Files/Pods-AKApiManager/Pods-AKApiManager.debug.xcconfig"; sourceTree = "<group>"; };
 		6C9BA6B38F9CC5BBDBE28FB1 /* Pods-AKApiManager-AKApiManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKApiManager-AKApiManagerTests.release.xcconfig"; path = "Target Support Files/Pods-AKApiManager-AKApiManagerTests/Pods-AKApiManager-AKApiManagerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,8 +131,10 @@
 			isa = PBXGroup;
 			children = (
 				1D4C270429A0629F00007DFE /* ResponseHandlers.swift */,
+				1D8A5B6029B1669B0056A8A9 /* HeadersHandler.swift */,
 				1D4C270629A062B700007DFE /* DataRequest.swift */,
 				1D4C270829A062CD00007DFE /* UploadRequest.swift */,
+				1D8A5B5E29B123700056A8A9 /* HTTPHeaders+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -331,6 +337,8 @@
 			files = (
 				1D4C270229A0624200007DFE /* AKApiManager.swift in Sources */,
 				1D4C26EA29A0609D00007DFE /* AKApiManager.docc in Sources */,
+				1D8A5B5F29B123700056A8A9 /* HTTPHeaders+Extension.swift in Sources */,
+				1D8A5B6129B1669B0056A8A9 /* HeadersHandler.swift in Sources */,
 				1D4C270529A0629F00007DFE /* ResponseHandlers.swift in Sources */,
 				1D4C270729A062B800007DFE /* DataRequest.swift in Sources */,
 				1D4C270929A062CD00007DFE /* UploadRequest.swift in Sources */,

@@ -8,37 +8,63 @@
 import Foundation
 import Alamofire
 
+/// Protocol used for unit testing purposes.
 public protocol AKApiManagerProtocol {
     var isConnected: Bool { get }
     var baseUrl: String { get set }
+    var addedHeadersHandler: HeadersHandler.Added { get set }
+    var defaultUploadHeadersHandler: HeadersHandler.Upload { get set }
+    var statusHandler: ResponseHandlers.Status { get set }
     func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data)
     func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data)
 }
 
 public extension AKApiManagerProtocol {
-    func request(_ request: DataRequest) async -> (status: Int?, data: Data?)  {
+    @discardableResult func request(_ request: DataRequest) async -> (status: Int?, data: Data?)  {
         await withCheckedContinuation { cont in
             self.request(request) { cont.resume(returning: ($0, $1)) }
         }
     }
 
-    func upload(_ request: UploadRequest) async -> (status: Int?, data: Data?) {
+    @discardableResult func upload(_ request: UploadRequest) async -> (status: Int?, data: Data?) {
         await withCheckedContinuation { cont in
             upload(request) { cont.resume(returning: ($0, $1)) }
         }
     }
+
+    func request(_ request: DataRequest) {
+        self.request(request, completionHandler: { _, _ in })
+    }
+
+    func upload(_ request: UploadRequest) {
+        upload(request, completionHandler: { _, _ in })
+    }
 }
 
+/// Api manager is built on top of `Alamofire` to facilitate usage of restful api requests.
 public class AKApiManager: AKApiManagerProtocol {
     public static let notConnectedStatus = -1010
     public static let shared = AKApiManager()
 
-    /// Returns true if internet is reachable
+    /// Returns true if internet is reachable.
     open var isConnected: Bool {
         NetworkReachabilityManager()?.isReachable ?? false
     }
+    /// Custom handling for specific response status values. For example: logging out in case of status 401.
+    public var statusHandler: ResponseHandlers.Status = { _, _ in }
     /// Base url of your APIs. The url path you provide in the `request(_:completionHandler:)` method will be concatenated to it before being used as the request url.
     public var baseUrl = ""
+    /// Optionally, set this handler to add a default set of headers to your APIs headers. For example: `"Authorization": "bearer token"`.
+    public var addedHeadersHandler: HeadersHandler.Added = { nil }
+    /// This handler returns the default headers for upload requests. Change its value according to your business needs.
+    public var defaultUploadHeadersHandler: HeadersHandler.Upload = {
+        HTTPHeaders([
+            "Content-Type": $0,
+            "x-amz-acl": "public-read"
+        ])
+    }
+    /// Optionally, change its value to `true` to see all logs of your API requests.
+    public var allowLogs = false
 
     private init() {}
 
@@ -48,14 +74,13 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
+        let uploadHeaders = defaultUploadHeadersHandler(request.mimeType)
+        let headers = addedHeadersHandler()?.added(uploadHeaders)
         AF.upload(
             request.data,
             to: request.url,
             method: .put,
-            headers: [
-                "Content-Type": request.mimeType,
-                "x-amz-acl": "public-read"
-            ])
+            headers: headers)
         .uploadProgress(closure: { [weak self] progress in
             request.progressHandler?(progress)
             self?.printInDebug("upload progress: \(progress)")
@@ -73,6 +98,7 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
+        let headers = addedHeadersHandler()?.added(request.headers ?? HTTPHeaders())
         let reqUrl = baseUrl.appending(request.url)
         let time1 = Date()
         AF.request(
@@ -80,7 +106,7 @@ public class AKApiManager: AKApiManagerProtocol {
             method: request.method,
             parameters: request.parameters,
             encoding: request.encoding,
-            headers: request.headers)
+            headers: headers)
         .responseData { [weak self] response in
             guard let self = self else { return }
             let time2 = Date()
@@ -99,22 +125,26 @@ public class AKApiManager: AKApiManagerProtocol {
         switch response.result {
         case .success(let data):
 //        if let data = response.data {
-//            print("string data: \(String(describing: String(data: data, encoding: String.Encoding.utf8)))")
+//            print("string data: \(String(describing: String(data: data, encoding: .utf8)))")
 //        }
             completion(response.response?.statusCode, data)
             printInDebug("json: \(String(describing: data))")
         case .failure(let error):
             printInDebug("error: \(String(describing: error.errorDescription))")
             if let data = response.data {
-                printInDebug("string error: \(String(describing: String(data: data, encoding: String.Encoding.utf8)))")
+                printInDebug("string error: \(String(describing: String(data: data, encoding: .utf8)))")
             }
             completion(response.response?.statusCode, response.data)
             printInDebug("json: \(String(describing: response.data))")
         }
+        guard let url = response.request?.url?.absoluteString.replacingOccurrences(of: baseUrl, with: ""),
+              let statusCode = response.response?.statusCode else { return }
+        statusHandler(url, statusCode)
     }
     
-    /// This method is marked as _open_ so that you can override it with empty implementation if you don't want to see the printed logs.
-    open func printInDebug(_ string: String) {
+    /// This method prints logs when running in debug mode.
+    func printInDebug(_ string: String) {
+        guard allowLogs else { return }
         #if DEBUG
         print(string)
         #endif

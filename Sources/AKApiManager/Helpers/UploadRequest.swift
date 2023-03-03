@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Upload request inputs.
 public struct UploadRequest {
     let url: String
     let data: Data
