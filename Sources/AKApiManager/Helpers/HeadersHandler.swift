@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 
+/// Handlers used for request headers.
 public enum HeadersHandler {
     public typealias Added = () -> HTTPHeaders?
     public typealias Upload = (String) -> HTTPHeaders

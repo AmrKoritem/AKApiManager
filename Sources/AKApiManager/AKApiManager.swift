@@ -14,6 +14,7 @@ public protocol AKApiManagerProtocol {
     var baseUrl: String { get set }
     var addedHeadersHandler: HeadersHandler.Added { get set }
     var defaultUploadHeadersHandler: HeadersHandler.Upload { get set }
+    var statusHandler: ResponseHandlers.Status { get set }
     func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data)
     func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data)
 }
@@ -37,10 +38,12 @@ public class AKApiManager: AKApiManagerProtocol {
     public static let notConnectedStatus = -1010
     public static let shared = AKApiManager()
 
-    /// Returns true if internet is reachable
+    /// Returns true if internet is reachable.
     open var isConnected: Bool {
         NetworkReachabilityManager()?.isReachable ?? false
     }
+    /// Custom handling for specific response status values. For example: logging out in case of status 401.
+    public var statusHandler: ResponseHandlers.Status = { _, _ in }
     /// Base url of your APIs. The url path you provide in the `request(_:completionHandler:)` method will be concatenated to it before being used as the request url.
     public var baseUrl = ""
     /// Optionally, set this handler to add a default set of headers to your APIs headers. For example: `"Authorization": "bearer token"`.
@@ -114,18 +117,21 @@ public class AKApiManager: AKApiManagerProtocol {
         switch response.result {
         case .success(let data):
 //        if let data = response.data {
-//            print("string data: \(String(describing: String(data: data, encoding: String.Encoding.utf8)))")
+//            print("string data: \(String(describing: String(data: data, encoding: .utf8)))")
 //        }
             completion(response.response?.statusCode, data)
             printInDebug("json: \(String(describing: data))")
         case .failure(let error):
             printInDebug("error: \(String(describing: error.errorDescription))")
             if let data = response.data {
-                printInDebug("string error: \(String(describing: String(data: data, encoding: String.Encoding.utf8)))")
+                printInDebug("string error: \(String(describing: String(data: data, encoding: .utf8)))")
             }
             completion(response.response?.statusCode, response.data)
             printInDebug("json: \(String(describing: response.data))")
         }
+        guard let url = response.request?.url?.absoluteString.replacingOccurrences(of: baseUrl, with: ""),
+              let statusCode = response.response?.statusCode else { return }
+        statusHandler(url, statusCode)
     }
     
     /// This method prints logs when running in debug mode.

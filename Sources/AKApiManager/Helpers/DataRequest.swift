@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 
+/// Data request inputs.
 public struct DataRequest {
     let url: String
     let method: HTTPMethod

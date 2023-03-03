@@ -7,7 +7,9 @@
 
 import Foundation
 
+/// Handlers used with a request reponse.
 public enum ResponseHandlers {
     public typealias Data = (Int?, Foundation.Data?) -> Void
     public typealias Progress = (Foundation.Progress) -> Void
+    public typealias Status = (String, Int) -> Void
 }
