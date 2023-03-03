@@ -31,6 +31,14 @@ public extension AKApiManagerProtocol {
             upload(request) { cont.resume(returning: ($0, $1)) }
         }
     }
+
+    func request(_ request: DataRequest) {
+        self.request(request, completionHandler: { _, _ in })
+    }
+
+    func upload(_ request: UploadRequest) {
+        upload(request, completionHandler: { _, _ in })
+    }
 }
 
 /// Api manager is built on top of `Alamofire` to facilitate usage of restful api requests.
