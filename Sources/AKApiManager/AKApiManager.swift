@@ -15,14 +15,14 @@ public protocol AKApiManagerDelegate: AnyObject {
     /// Optionally, add a default set of headers to your APIs headers. For example: `"Authorization": "bearer token"`.
     func getAddedHeaders() -> HTTPHeaders?
     /// This handler returns the default headers for upload requests. Change its value according to your business needs.
-    func getefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders
+    func getDefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders
 }
 
 public extension AKApiManagerDelegate {
     func getAddedHeaders() -> HTTPHeaders? {
         nil
     }
-    func getefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders {
+    func getDefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders {
         HTTPHeaders([
             "Content-Type": mimeType,
             "x-amz-acl": "public-read"
@@ -88,7 +88,7 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
-        let uploadHeaders = delegate?.getefaultUploadHeaders(request.mimeType) ?? HTTPHeaders()
+        let uploadHeaders = delegate?.getDefaultUploadHeaders(request.mimeType) ?? HTTPHeaders()
         let headers = delegate?.getAddedHeaders()?.added(uploadHeaders)
         AF.upload(
             request.data,
