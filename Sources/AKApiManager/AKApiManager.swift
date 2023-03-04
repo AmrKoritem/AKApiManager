@@ -8,13 +8,36 @@
 import Foundation
 import Alamofire
 
+public protocol AKApiManagerDelegate: AnyObject {
+    /// Determines the criteria for retry attempts of data requests.
+    /// Can be used for custom handling of specific response status values. For example: logging out in case of status 401.
+    func willRetryFor(dataRequest: DataRequest, statusCode: Int) async -> Bool
+    /// Optionally, add a default set of headers to your APIs headers. For example: `"Authorization": "bearer token"`.
+    func getAddedHeaders() -> HTTPHeaders?
+    /// This handler returns the default headers for upload requests. Change its value according to your business needs.
+    func getefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders
+}
+
+public extension AKApiManagerDelegate {
+    func getAddedHeaders() -> HTTPHeaders? {
+        nil
+    }
+    func getefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders {
+        HTTPHeaders([
+            "Content-Type": mimeType,
+            "x-amz-acl": "public-read"
+        ])
+    }
+    func willRetryFor(dataRequest: DataRequest, statusCode: Int) async -> Bool {
+        false
+    }
+}
+
 /// Protocol used for unit testing purposes.
 public protocol AKApiManagerProtocol {
     var isConnected: Bool { get }
     var baseUrl: String { get set }
-    var addedHeadersHandler: HeadersHandler.Added { get set }
-    var defaultUploadHeadersHandler: HeadersHandler.Upload { get set }
-    var statusHandler: ResponseHandlers.Status { get set }
+    var delegate: AKApiManagerDelegate? { get set }
     func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data)
     func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data)
 }
@@ -50,21 +73,12 @@ public class AKApiManager: AKApiManagerProtocol {
     open var isConnected: Bool {
         NetworkReachabilityManager()?.isReachable ?? false
     }
-    /// Custom handling for specific response status values. For example: logging out in case of status 401.
-    public var statusHandler: ResponseHandlers.Status = { _, _ in }
     /// Base url of your APIs. The url path you provide in the `request(_:completionHandler:)` method will be concatenated to it before being used as the request url.
     public var baseUrl = ""
-    /// Optionally, set this handler to add a default set of headers to your APIs headers. For example: `"Authorization": "bearer token"`.
-    public var addedHeadersHandler: HeadersHandler.Added = { nil }
-    /// This handler returns the default headers for upload requests. Change its value according to your business needs.
-    public var defaultUploadHeadersHandler: HeadersHandler.Upload = {
-        HTTPHeaders([
-            "Content-Type": $0,
-            "x-amz-acl": "public-read"
-        ])
-    }
     /// Optionally, change its value to `true` to see all logs of your API requests.
     public var allowLogs = false
+    /// Delegate used for optional customizations.
+    public weak var delegate: AKApiManagerDelegate?
 
     private init() {}
 
@@ -74,8 +88,8 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
-        let uploadHeaders = defaultUploadHeadersHandler(request.mimeType)
-        let headers = addedHeadersHandler()?.added(uploadHeaders)
+        let uploadHeaders = delegate?.getefaultUploadHeaders(request.mimeType) ?? HTTPHeaders()
+        let headers = delegate?.getAddedHeaders()?.added(uploadHeaders)
         AF.upload(
             request.data,
             to: request.url,
@@ -98,7 +112,7 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
-        let headers = addedHeadersHandler()?.added(request.headers ?? HTTPHeaders())
+        let headers = delegate?.getAddedHeaders()?.added(request.headers ?? HTTPHeaders())
         let reqUrl = baseUrl.appending(request.url)
         let time1 = Date()
         AF.request(
@@ -117,6 +131,12 @@ public class AKApiManager: AKApiManagerProtocol {
             self.printInDebug("encoding: \(request.encoding)")
             self.printInDebug("requestTime: \(time2.timeIntervalSince1970 - time1.timeIntervalSince1970)")
             self.handleResponse(response: response, completion: completionHandler)
+            Task {
+                guard let statusCode = response.response?.statusCode,
+                      let isRetry = await self.delegate?.willRetryFor(dataRequest: request, statusCode: statusCode),
+                      isRetry else { return }
+                self.request(request, completionHandler: completionHandler)
+            }
         }
     }
 
@@ -137,9 +157,6 @@ public class AKApiManager: AKApiManagerProtocol {
             completion(response.response?.statusCode, response.data)
             printInDebug("json: \(String(describing: response.data))")
         }
-        guard let url = response.request?.url?.absoluteString.replacingOccurrences(of: baseUrl, with: ""),
-              let statusCode = response.response?.statusCode else { return }
-        statusHandler(url, statusCode)
     }
     
     /// This method prints logs when running in debug mode.
