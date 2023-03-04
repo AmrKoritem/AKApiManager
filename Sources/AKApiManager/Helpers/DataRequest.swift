@@ -10,11 +10,11 @@ import Alamofire
 
 /// Data request inputs.
 public struct DataRequest {
-    let url: String
-    let method: HTTPMethod
-    let parameters: Parameters?
-    let headers: HTTPHeaders?
-    let encoding: ParameterEncoding
+    public let url: String
+    public let method: HTTPMethod
+    public let parameters: Parameters?
+    public let headers: HTTPHeaders?
+    public let encoding: ParameterEncoding
 
     public init(
         url: String,

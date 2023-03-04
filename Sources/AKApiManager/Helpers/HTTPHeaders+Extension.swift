@@ -8,6 +8,9 @@
 import Foundation
 import Alamofire
 
+public typealias Headers = HTTPHeaders
+public typealias Header = HTTPHeader
+
 extension HTTPHeaders {
     mutating func add(_ headers: HTTPHeaders) {
         headers.forEach { add($0) }

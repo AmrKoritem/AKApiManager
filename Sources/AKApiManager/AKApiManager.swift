@@ -13,17 +13,17 @@ public protocol AKApiManagerDelegate: AnyObject {
     /// Can be used for custom handling of specific response status values. For example: logging out in case of status 401.
     func willRetryFor(dataRequest: DataRequest, statusCode: Int) async -> Bool
     /// Optionally, add a default set of headers to your APIs headers. For example: `"Authorization": "bearer token"`.
-    func getAddedHeaders() -> HTTPHeaders?
+    func getAddedHeaders() -> Headers?
     /// This handler returns the default headers for upload requests. Change its value according to your business needs.
-    func getDefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders
+    func getDefaultUploadHeaders(_ mimeType: String) -> Headers
 }
 
 public extension AKApiManagerDelegate {
-    func getAddedHeaders() -> HTTPHeaders? {
+    func getAddedHeaders() -> Headers? {
         nil
     }
-    func getDefaultUploadHeaders(_ mimeType: String) -> HTTPHeaders {
-        HTTPHeaders([
+    func getDefaultUploadHeaders(_ mimeType: String) -> Headers {
+        Headers([
             "Content-Type": mimeType,
             "x-amz-acl": "public-read"
         ])
@@ -88,7 +88,7 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
-        let uploadHeaders = delegate?.getDefaultUploadHeaders(request.mimeType) ?? HTTPHeaders()
+        let uploadHeaders = delegate?.getDefaultUploadHeaders(request.mimeType) ?? Headers()
         let headers = delegate?.getAddedHeaders()?.added(uploadHeaders)
         AF.upload(
             request.data,
@@ -112,7 +112,7 @@ public class AKApiManager: AKApiManagerProtocol {
     ///   - completionHandler: Callback to be triggered upon response.
     public func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data) {
         guard isConnected else { return completionHandler(AKApiManager.notConnectedStatus, nil) }
-        let headers = delegate?.getAddedHeaders()?.added(request.headers ?? HTTPHeaders())
+        let headers = delegate?.getAddedHeaders()?.added(request.headers ?? Headers())
         let reqUrl = baseUrl.appending(request.url)
         let time1 = Date()
         AF.request(

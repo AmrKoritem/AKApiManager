@@ -9,11 +9,11 @@ import Foundation
 
 /// Upload request inputs.
 public struct UploadRequest {
-    let url: String
-    let data: Data
-    let fileName: String
-    let mimeType: String
-    let progressHandler: ResponseHandlers.Progress?
+    public let url: String
+    public let data: Data
+    public let fileName: String
+    public let mimeType: String
+    public let progressHandler: ResponseHandlers.Progress?
 
     public init(
         url: String,
