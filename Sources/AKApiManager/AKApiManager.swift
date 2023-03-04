@@ -38,6 +38,7 @@ public protocol AKApiManagerProtocol {
     var isConnected: Bool { get }
     var baseUrl: String { get set }
     var delegate: AKApiManagerDelegate? { get set }
+    var allowLogs: Bool { get set }
     func request(_ request: DataRequest, completionHandler: @escaping ResponseHandlers.Data)
     func upload(_ request: UploadRequest, completionHandler: @escaping ResponseHandlers.Data)
 }
