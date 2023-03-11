@@ -110,7 +110,7 @@ public class AKApiManager: AKApiManagerProtocol {
             headers: headers)
         let response = await afReq.serializingData().response
         let time2 = Date()
-        printInDebug("headers: \(String(describing: request.headers))")
+        printInDebug("headers: \(String(describing: headers))")
         printInDebug("url: \(reqUrl)")
         printInDebug("type: \(request.method.rawValue)")
         printInDebug("parameters: \(request.parameters ?? [:])")
@@ -130,14 +130,14 @@ public class AKApiManager: AKApiManagerProtocol {
 //        if let data = response.data {
 //            print("string data: \(String(describing: String(data: data, encoding: .utf8)))")
 //        }
-            printInDebug("json: \(String(describing: data))")
+            printInDebug("json: \(String(describing: data.printable))")
             return (response.response?.statusCode, data)
         case .failure(let error):
             printInDebug("error: \(String(describing: error.errorDescription))")
             if let data = response.data {
                 printInDebug("string error: \(String(describing: String(data: data, encoding: .utf8)))")
             }
-            printInDebug("json: \(String(describing: response.data))")
+            printInDebug("json: \(String(describing: response.data?.printable))")
             return (response.response?.statusCode, response.data)
         }
     }
